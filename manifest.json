@@ -7,7 +7,7 @@
         "48": "assets/icon48.png",
         "128": "assets/icon128.png"
     },
-    "permissions": ["storage", "notifications", "activeTab", "scripting"],
+    "permissions": ["storage", "alarms", "notifications", "activeTab", "scripting"],
     "host_permissions": [
         "https://penyedia.inaproc.id/negotiation/*",
         "https://penyedia.inaproc.id/order/*"
@@ -27,7 +27,7 @@
         }
     ],
     "action": {
-        "default_title": "INAPROC Helper",
+        "default_title": "INAMINDER",
         "default_popup": "popup/popup.html"
     }
 

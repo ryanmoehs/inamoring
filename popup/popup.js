@@ -23,7 +23,7 @@ function getUrgencyLevel(dueDate) {
 
   const diffHours = (due - now) / (1000 * 60 * 60);
 
-  if (diffHours <= 24 && diffHours > 0) return 'urgent';
+  if (diffHours < 24 || diffHours < 0) return 'urgent';
   return 'normal';
 }
 
@@ -39,6 +39,7 @@ async function loadOrders() {
 // Render orders list
 async function renderOrders({
     filterOrderId = '', 
+    filterCustomer = '',
     filterDate = '',
     filterStatus = '',
     filterUrgency = ''
@@ -54,6 +55,7 @@ async function renderOrders({
     dueDateObj: parseDate(order.dueDate)
   }));
 
+  console.log(orderArray)
   // Sort by due date (closest first)
   orderArray.sort((a, b) => a.dueDateObj - b.dueDateObj);
   function normalizeDate(dateStr) {
@@ -67,6 +69,9 @@ async function renderOrders({
       const matchesOrderId =
         !filterOrderId || order.orderId.includes(filterOrderId);
 
+      const matchesCustomer =
+        !filterCustomer || order.customerName.includes(filterCustomer);
+
       const matchesDate =
         !filterDate || normalizeDate(order.dueDate) === filterDate;
 
@@ -78,6 +83,7 @@ async function renderOrders({
 
       return (
         matchesOrderId &&
+        matchesCustomer &&
         matchesDate &&
         matchesStatus &&
         matchesUrgency
@@ -93,6 +99,7 @@ async function renderOrders({
     li.innerHTML = `
       <div class="card_desc">
         <div class="no_pesanan">${order.orderId}</div>
+        <div class="no_pesanan">${order.customerName}</div>
         <div class="due_date">${order.dueDate}</div>
         <div class="status ${order.urgencyLevel}">${order.status}</div>
       </div>
@@ -181,7 +188,8 @@ document.addEventListener('DOMContentLoaded', async () => {
       const tab = tabs[0];
 
       // ❌ 2. URL bukan INAPROC
-      if (!tab.url || !tab.url.includes('penyedia.inaproc.id/negotiation') || !tab.url.includes('penyedia.inaproc.id/order')) {
+      // if (!tab.url || !tab.url.includes('penyedia.inaproc.id/negotiation') || !tab.url.includes('penyedia.inaproc.id/order')) {
+      if (!tab.url || !tab.url.includes('penyedia.inaproc.id/')) {
         console.error('[ERROR][URL] Invalid page:', tab.url);
         alert('Error: Halaman bukan detail pesanan INAPROC');
         return;
