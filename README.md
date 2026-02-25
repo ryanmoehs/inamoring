@@ -6,8 +6,7 @@ Sebuah Chrome extension yang membantu mengelola pesanan dan negosiasi dari INAPR
 
 ### 1. **Tambahkan Pesanan Otomatis**
 - Buka halaman detail pesanan/negosiasi di INAPROC
-- Klik tombol "+ Tambahkan ke INAPROC Helper" yang muncul di halaman
-- Atau gunakan tombol "+ Tambahkan Halaman Ini" di popup extension
+- Gunakan tombol "+ Tambahkan Halaman Ini" di popup extension
 - Data pesanan akan tersimpan (nomor pesanan, status, deadline, URL)
 
 ### 2. **Sorting Otomatis Berdasarkan Urgency**
@@ -32,7 +31,8 @@ Sebuah Chrome extension yang membantu mengelola pesanan dan negosiasi dari INAPR
 
 ### Data Yang Disimpan
 Setiap pesanan menyimpan:
-- `orderId`: Nomor pesanan (contoh: EP-01KDT5SGCRTYH8NV9ZKJSN4E63)
+- `orderId`: Nomor pesanan (contoh: EP-0123ABCD)
+- `customerName`: Nama Customer
 - `status`: Status pesanan (Menunggu Respon Penyedia, Menunggu Respon Pembeli, dst)
 - `dueDate`: Tanggal deadline (format: DD Mon YYYY)
 - `url`: URL halaman pesanan di INAPROC
@@ -69,9 +69,6 @@ inaproc-ext/
 │   └── scrape-order.js       # Scrape data pesanan
 ├── background/
 │   └── service-worker.js     # Background service worker
-├── utils/
-│   ├── storage.js            # Utility penyimpanan
-│   └── parser.js             # Utility parsing
 └── assets/                    # Icon dan asset lainnya
 ```
 
