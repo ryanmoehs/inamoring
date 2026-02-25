@@ -38,7 +38,7 @@ async function loadOrders() {
 
 // Render orders list
 async function renderOrders({
-    filterOrderId = '', 
+    // filterOrderId = '', 
     filterCustomer = '',
     filterDate = '',
     filterStatus = '',
@@ -66,11 +66,11 @@ async function renderOrders({
   // Apply filters
 
     orderArray = orderArray.filter(order => {
-      const matchesOrderId =
-        !filterOrderId || order.orderId.includes(filterOrderId);
+      // const matchesOrderId =
+      //   !filterOrderId || order.orderId.includes(filterOrderId);
 
-      const matchesCustomer =
-        !filterCustomer || order.customerName.includes(filterCustomer);
+      const matchesCustomer = !filterCustomer || 
+        (order.customerName && order.customerName.toLowerCase().includes(filterCustomer.toLowerCase()));
 
       const matchesDate =
         !filterDate || normalizeDate(order.dueDate) === filterDate;
@@ -82,7 +82,7 @@ async function renderOrders({
         !filterUrgency || order.urgencyLevel === filterUrgency;
 
       return (
-        matchesOrderId &&
+        // matchesOrderId &&
         matchesCustomer &&
         matchesDate &&
         matchesStatus &&
@@ -94,7 +94,8 @@ async function renderOrders({
   orderArray.forEach((order) => {
     const li = document.createElement('li');
     li.className = `card ${order.urgencyLevel}`;
-    li.dataset.orderId = order.orderId;
+    // li.dataset.orderId = order.orderId;
+    li.dataset.customerName = order.customerName;
 
     li.innerHTML = `
       <div class="card_desc">
@@ -146,7 +147,8 @@ async function deleteOrder(orderId) {
 
 // Initialize popup
 document.addEventListener('DOMContentLoaded', async () => {
-  const searchInputOrderId = document.querySelector('.search input[type="text"]');
+  // const searchInputOrderId = document.querySelector('.search input[type="text"]');
+  const searchInputCustomer = document.querySelector('.search input[type="text"]');
   const searchInputDate = document.querySelector('.search input[type="date"]');
   const statusPicker = document.getElementById('status_picker');
   const urgencyPicker = document.getElementById('urgency_picker');
@@ -158,7 +160,8 @@ document.addEventListener('DOMContentLoaded', async () => {
 
   function applyFilters() {
     renderOrders({
-      filterOrderId: searchInputOrderId.value,
+      // filterOrderId: searchInputOrderId.value,
+      filterCustomer: searchInputCustomer.value,
       filterDate: searchInputDate.value
         ? formatDateForInput(searchInputDate.value)
         : '',
@@ -166,7 +169,8 @@ document.addEventListener('DOMContentLoaded', async () => {
       filterUrgency: urgencyPicker.value
     });
   }
-  searchInputOrderId?.addEventListener('input', applyFilters);
+  // searchInputOrderId?.addEventListener('input', applyFilters);
+  searchInputCustomer?.addEventListener('input', applyFilters);
   searchInputDate?.addEventListener('change', applyFilters);
   statusPicker?.addEventListener('change', applyFilters);
   urgencyPicker?.addEventListener('change', applyFilters);
